@@ -14,7 +14,3 @@ count how many rows also
 ```
 
 Results vary by model — not a guarantee the agent will always overbuild.
-
-## security-review
-
-See [`security-review/README.md`](./security-review/README.md).

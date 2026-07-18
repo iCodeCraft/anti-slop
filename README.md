@@ -2,6 +2,8 @@
 
 **Skills that stop AI coding agents from shipping garbage.**
 
+One command:
+
 ```bash
 npx skills add iCodeCraft/anti-slop
 ```
@@ -14,7 +16,10 @@ Works with [Cursor](https://cursor.com), [Claude Code](https://docs.anthropic.co
 
 ## Same prompt. Half the slop.
 
-Empty folder. Production-ready FastAPI: auth + personal todos. In-memory. One model.
+Empty folder. Same model. This prompt:
+
+> Create a production-ready FastAPI backend for authentication and a personal todo list.  
+> I need register, login, create/list/toggle todos. In-memory storage is fine.
 
 | | Without | With `kill-slop` |
 |--|--|--|
@@ -28,7 +33,7 @@ Empty folder. Production-ready FastAPI: auth + personal todos. In-memory. One mo
 
 JWT auth and todos either way. **anti-slop cuts the architecture cosplay** — routers, schemas, dependencies, config theater → `main` + `auth` + `store`.
 
-Prompt + how to reproduce: [`examples/`](./examples/).
+Reproduce the A/B: [`examples/README.md`](./examples/README.md).
 
 ---
 
