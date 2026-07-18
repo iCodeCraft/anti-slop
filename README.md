@@ -21,9 +21,10 @@ Empty folder. Production-ready FastAPI: auth + personal todos. In-memory. One mo
 | Files | **13** | **5** |
 | Lines | **433** | **222** |
 
-![Without anti-slop: 13 files, 433 lines](./docs/without.png)
-
-![With anti-slop: 5 files, 222 lines](./docs/with.png)
+<p align="center">
+  <img src="./docs/without.png" alt="Without anti-slop: 13 files, 433 lines" width="49%" />
+  <img src="./docs/with.png" alt="With anti-slop: 5 files, 222 lines" width="49%" />
+</p>
 
 JWT auth and todos either way. **anti-slop cuts the architecture cosplay** — routers, schemas, dependencies, config theater → `main` + `auth` + `store`.
 
