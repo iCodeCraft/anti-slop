@@ -14,3 +14,7 @@ count how many rows also
 ```
 
 Results vary by model — not a guarantee the agent will always overbuild.
+
+## kill-slop over-fire / under-fire
+
+Prompts to check the skill does not invent architecture, and still obeys an explicit architecture ask: [`kill-slop/README.md`](./kill-slop/README.md).
