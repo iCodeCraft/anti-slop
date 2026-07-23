@@ -22,3 +22,7 @@ When finished, list every file you created or edited, the file count, and the to
 ```
 
 **Published README delta** (one measured empty-folder run): **13 → 5 files**, **433 → 222 lines**. Re-runs vary by model; not a guarantee the agent always overbuilds without the skill.
+
+## kill-slop over-fire / under-fire
+
+Prompts to check the skill does not invent architecture, and still obeys an explicit architecture ask: [`kill-slop/README.md`](./kill-slop/README.md).
