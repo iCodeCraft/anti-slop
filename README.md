@@ -1,94 +1,78 @@
+<div align="center">
+
+<img src="./docs/mark.svg" alt="anti-slop" width="72" height="72" />
+
 # anti-slop
 
 **Skills that stop AI coding agents from shipping garbage.**
 
-Same prompt. Smaller diffs. Less fake architecture. PRs you’d actually merge.
+Same prompt → smaller diffs. Less fake architecture. PRs you’d actually merge.
+
+<br />
 
 ```bash
 npx skills add iCodeCraft/anti-slop
 ```
 
-Works with [Cursor](https://cursor.com), [Claude Code](https://docs.anthropic.com/en/docs/claude-code), Codex, and [70+ other agents](https://github.com/vercel-labs/skills#supported-agents) via [Agent Skills](https://agentskills.io).
+<br />
+
+[Cursor](https://cursor.com) · [Claude Code](https://docs.anthropic.com/en/docs/claude-code) · Codex · [70+ agents](https://github.com/vercel-labs/skills#supported-agents) · [Agent Skills](https://agentskills.io) · [MIT](./LICENSE)
+
+</div>
 
 ---
 
 ## Same prompt. Half the slop.
 
-Empty folder. Same model. This prompt:
+Empty folder. Same model. One prompt:
 
 > Create a production-ready FastAPI backend for authentication and a personal todo list.  
 > I need register, login, create/list/toggle todos. In-memory storage is fine.
 
-| | Without | With `kill-slop` | Delta |
-|--|--|--|--|
-| Files | **13** | **5** | **−62%** |
-| Lines | **433** | **222** | **−49%** |
-
 <p align="center">
-  <img src="./docs/without.png" alt="Without anti-slop: 13 files, 433 lines" width="49%" />
-  <img src="./docs/with.png" alt="With anti-slop: 5 files, 222 lines" width="49%" />
+  <img src="./docs/without.png" alt="Without anti-slop: 13 files, 433 lines" width="48%" />
+  &nbsp;
+  <img src="./docs/with.png" alt="With anti-slop: 5 files, 222 lines" width="48%" />
 </p>
 
-JWT auth and todos either way. **anti-slop cuts the architecture cosplay** — routers, schemas, dependencies, config theater → `main` + `auth` + `store`.
+<p align="center">
+  <strong>13 files · 433 lines</strong>&nbsp;&nbsp;→&nbsp;&nbsp;<strong>5 files · 222 lines</strong>
+  &nbsp;&nbsp;·&nbsp;&nbsp; <strong>−62% files · −49% lines</strong>
+</p>
 
-Reproduce it: [`examples/README.md`](./examples/README.md). Results vary by model — this is a real A/B, not a guarantee every run matches these numbers.
+JWT auth and todos either way. anti-slop cuts the architecture cosplay — routers, schemas, dependencies, config theater → `main` + `auth` + `store`.
 
----
+<details>
+<summary>Reproduce the A/B</summary>
 
-## The problem
+Prompt and notes: [`examples/README.md`](./examples/README.md). Results vary by model — a real run, not a guarantee.
 
-Agents overbuild by default.
-
-- Extra files nobody asked for
-- Strategy patterns for one use case
-- Comments that restate the code
-- Drive-by refactors “while we’re here”
-- Clean Architecture folder trees on a todo app
-
-You correct the same junk every chat. **anti-slop writes the rules down once** — and the agent loads them when the task matches.
+</details>
 
 ---
 
-## Install
+## Why it exists
 
-```bash
-npx skills add iCodeCraft/anti-slop
-```
+Agents overbuild. You correct the same junk every chat.
 
-Pin to a specific agent, or install globally:
+Extra files. Strategy patterns for one use. Comments that restate the code. Drive-by refactors. Clean Architecture on a todo app.
 
-```bash
-npx skills add iCodeCraft/anti-slop -a cursor -y
-npx skills add iCodeCraft/anti-slop -a claude-code -y
-npx skills add iCodeCraft/anti-slop -g -y
-```
-
-New agent session → skills load when relevant, or invoke them directly:
-
-| Command | Skill |
-|---------|-------|
-| `/kill-slop` | Minimal, merge-ready diffs |
-| `/security-review` | Diff-scoped security pass |
-| `/pr-hygiene` | Tight PR before you open it |
-
-```bash
-npx skills list
-npx skills remove kill-slop
-```
+**anti-slop writes the rules down once.** The agent loads them when the task matches — not as a pasted paragraph you repeat forever.
 
 ---
 
-## Skills
+## Three skills. One job each.
 
-Three focused playbooks. One job each.
+| | Skill | Does |
+|:-:|:------|:-----|
+| `/kill-slop` | [`kill-slop`](./skills/kill-slop/SKILL.md) | Minimal diffs. No drive-bys, junk comments, unrequested files/deps, or architecture cosplay. |
+| `/security-review` | [`security-review`](./skills/security-review/SKILL.md) | Diff-scoped findings: authz, injection, secrets, SSRF, unsafe defaults. |
+| `/pr-hygiene` | [`pr-hygiene`](./skills/pr-hygiene/SKILL.md) | Tight scope, honest PR body, no leftover debug. |
 
-| Skill | Does | When |
-|-------|------|------|
-| [`kill-slop`](./skills/kill-slop/SKILL.md) | Minimal diffs. No drive-by refactors, junk comments, unrequested files/deps, or architecture cosplay | Writing or editing code |
-| [`security-review`](./skills/security-review/SKILL.md) | Concrete findings: authz, injection, secrets, SSRF, unsafe defaults | Before merge / shipping auth, payments, uploads |
-| [`pr-hygiene`](./skills/pr-hygiene/SKILL.md) | Tight scope, honest PR body, no leftover debug | Opening a PR |
+New session → skills load when relevant, or type the command.
 
-### What `kill-slop` actually forbids
+<details>
+<summary>What <code>kill-slop</code> forbids</summary>
 
 - New files that could live in an existing one
 - Dependencies you didn’t ask for
@@ -100,9 +84,12 @@ Three focused playbooks. One job each.
 
 Full playbook: [`skills/kill-slop/SKILL.md`](./skills/kill-slop/SKILL.md).
 
-### What `security-review` catches
+</details>
 
-Diff-scoped, not a whole-repo audit. Example from [`examples/security-review`](./examples/security-review/README.md):
+<details>
+<summary>What <code>security-review</code> catches</summary>
+
+Diff-scoped — not a whole-repo audit. Example: [`examples/security-review`](./examples/security-review/README.md).
 
 ```ts
 // Looks fine. Ships a data leak.
@@ -113,13 +100,33 @@ app.get("/api/invoices/:id", async (req, res) => {
 });
 ```
 
-`/security-review` should flag **missing authorization** and push a scoped query — client-supplied id ≠ proof of access.
+`/security-review` flags **missing authorization** — client-supplied id ≠ proof of access.
+
+</details>
 
 ---
 
-## How it works
+## Install
 
-Each skill is a folder with a `SKILL.md` ([Agent Skills](https://agentskills.io) standard). Agents load `name` + `description` cheaply, then the full playbook when it matches the task.
+```bash
+npx skills add iCodeCraft/anti-slop
+```
+
+```bash
+# pin an agent
+npx skills add iCodeCraft/anti-slop -a cursor -y
+npx skills add iCodeCraft/anti-slop -a claude-code -y
+
+# every project on this machine
+npx skills add iCodeCraft/anti-slop -g -y
+
+# manage
+npx skills list
+npx skills remove kill-slop
+```
+
+<details>
+<summary>Where skills land</summary>
 
 | Tool | Project | Global |
 |------|---------|--------|
@@ -127,29 +134,14 @@ Each skill is a folder with a `SKILL.md` ([Agent Skills](https://agentskills.io)
 | Claude Code | `.claude/skills/` | `~/.claude/skills/` |
 | Codex / others | `.agents/skills/` | under `~/` |
 
-Install via the [skills CLI](https://github.com/vercel-labs/skills). No Cursor-only lock-in — this pack stays portable.
+Portable via the [skills CLI](https://github.com/vercel-labs/skills) — no Cursor-only lock-in.
+
+</details>
 
 ---
 
-## Why not just paste rules into every chat?
+<div align="center">
 
-Because you shouldn’t have to.
+**Contributing** · keep skills focused · MUST/NEVER over essays · [`CONTRIBUTING.md`](./CONTRIBUTING.md)
 
-Skills are **routable**: the agent sees a short description and only loads the full checklist when the task matches. You get senior-level constraints without burning context on every turn, and without rewriting the same “please don’t over-engineer” paragraph forever.
-
----
-
-## Contributing
-
-Keep skills focused. Prefer MUST/NEVER rules over essays. See [`CONTRIBUTING.md`](./CONTRIBUTING.md).
-
-```bash
-npx skills add . -a cursor -y
-npx skills list
-```
-
----
-
-## License
-
-[MIT](./LICENSE)
+</div>
