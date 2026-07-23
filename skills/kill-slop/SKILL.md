@@ -80,6 +80,22 @@ If the touch list grows past ~5 files for a small task, stop and shrink the plan
 
 If the workspace is empty or has no prior pattern, implement the smallest reasonable solution **in-repo**. Do not leave the workspace to find examples.
 
+### Measure before finishing
+
+From the **project being edited** (cwd = that repo), run the bundled read-only checker (never modifies the tree):
+
+```bash
+bash <path-to-this-skill>/scripts/check-diff.sh
+```
+
+Optional: `--max-files 5` (default), `--base HEAD`.
+
+- `STATUS: OK` — within soft file budget; still apply the self-check below
+- `STATUS: OVER_BUDGET` — shrink before ending (edit existing files, drop drive-bys)
+- `STATUS: SKIP` — no git / no base; count files manually with the same ~5-file rule
+
+If the user **explicitly** asked for a large scaffold or many files, obey that ask (see User intent wins); do not treat OVER_BUDGET as a reason to ignore them.
+
 ## Style
 
 - Prefer boring, readable code over cleverness
@@ -101,6 +117,7 @@ Answer these. If any fails, fix before ending:
 - [ ] No out-of-workspace reads or “inspiration” fishing
 - [ ] Diff is something a senior would merge without asking "why is this here?"
 - [ ] Explicit user asks for architecture / deps / tests / layout were honored (not “killed” away)
+- [ ] Ran `scripts/check-diff.sh` (or manual file count) and addressed OVER_BUDGET if the user did not ask for a large scaffold
 
 ## Output
 
