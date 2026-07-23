@@ -12,4 +12,3 @@ dist/
 .claude/skills/
 .codex/skills/
 skills-lock.json
-.DS_Store
