@@ -45,7 +45,9 @@ JWT auth and todos either way. anti-slop cuts the architecture cosplay — route
 <details>
 <summary>Reproduce the A/B</summary>
 
-Prompt and notes: [`examples/README.md`](./examples/README.md). Results vary by model — a real run, not a guarantee.
+Prompt, logging table (model + date), and notes: [`examples/README.md`](./examples/README.md).
+
+**Published delta** (one measured empty-folder run): 13 → 5 files, 433 → 222 lines. Re-runs vary by model; log yours when you reproduce.
 
 </details>
 
