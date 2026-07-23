@@ -29,6 +29,20 @@ Force a minimal, merge-ready diff. Prefer the smallest change that fully solves 
 - MUST prefer editing an existing file over adding a new one
 - MUST delete dead code you introduce; do not leave unused imports/vars
 
+## User intent wins
+
+Default to minimal. If the user **explicitly** asks for more structure, obey that request.
+
+Examples of explicit asks (do what they asked):
+
+- "use Clean Architecture / hexagonal / feature folders"
+- "scaffold the full project layout"
+- "add dependency X" / "set up Prisma / NextAuth / …"
+- "extract a shared abstraction" / "add a utils module"
+- "write tests" / "add comments explaining this"
+
+Do **not** override an explicit ask in the name of kill-slop. Minimalism applies when they did **not** request the heavier shape. If the ask is ambiguous, prefer minimal and say what you skipped.
+
 ## File shape (navigability)
 
 Goal: easy to walk for humans and agents — without architecture theater.
@@ -86,7 +100,8 @@ Answer these. If any fails, fix before ending:
 - [ ] No obvious comments (`// import x`, `// return result`)
 - [ ] No out-of-workspace reads or “inspiration” fishing
 - [ ] Diff is something a senior would merge without asking "why is this here?"
+- [ ] Explicit user asks for architecture / deps / tests / layout were honored (not “killed” away)
 
 ## Output
 
-When summarizing, say what you changed and what you deliberately did **not** change. If you split a file, say **why** (navigability), in one sentence.
+When summarizing, say what you changed and what you deliberately did **not** change. If you split a file, say **why** (navigability), in one sentence. If the user asked for a heavier shape, say that you followed that ask.
